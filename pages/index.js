@@ -55,7 +55,7 @@ const Index = (props) => {
         >
           <p>Select products to change their price temporarily.</p>
         </EmptyState>
-        <Query query={get_SCRIPT_TAG}>
+        {/* <Query query={get_SCRIPT_TAG}>
           {({ data, loading, error, called }) => {
             if (loading) return <div>Loading</div>;
             else if (error) console.log("error in loading query is", error);
@@ -81,7 +81,7 @@ const Index = (props) => {
           }}
         >
           Attach Script
-        </Button>
+        </Button> */}
       </Layout>
     </Page>
   );

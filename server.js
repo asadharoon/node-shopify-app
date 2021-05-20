@@ -35,15 +35,9 @@ app.prepare().then(() => {
   server.use(
     createShopifyAuth({
       afterAuth(ctx) {
-        const { shop, scope, accessToken } = ctx.state.shopify;
+        const { shop, scope } = ctx.state.shopify;
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
-        // const returnUrl = `https://${Shopify.Context.HOST_NAME}?shop=${shop}`;
-        // const subscriptionUrl = await getSubscriptionUrl(
-        //   accessToken,
-        //   shop,
-        //   returnUrl
-        // );
-        //ctx.redirect(subscriptionUrl);
+
         ctx.redirect(`/?shop=${shop}`);
       },
     })
@@ -99,6 +93,15 @@ app.prepare().then(() => {
     }
   });
   router.get("/createCustomer", async (ctx) => {
+    const shop = ctx.query.shop;
+
+    if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
+      ctx.redirect(`/auth?shop=${shop}`);
+    } else {
+      await handleRequest(ctx);
+    }
+  });
+  router.get("/discounts", async (ctx) => {
     const shop = ctx.query.shop;
 
     if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {

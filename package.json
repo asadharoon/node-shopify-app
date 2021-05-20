@@ -17,6 +17,7 @@
     "@shopify/app-bridge-utils": "^1.30.0",
     "@shopify/koa-shopify-auth": "^4.1.3",
     "@shopify/polaris": "^6.3.0",
+    "antd": "^4.15.6",
     "apollo-boost": "^0.4.9",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",

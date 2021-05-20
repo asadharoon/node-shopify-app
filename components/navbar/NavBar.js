@@ -88,6 +88,12 @@ const Navbar = (props) => {
             icon: ProductsMajor,
             onClick: () => handleClick("/createCustomer"),
           },
+          {
+            url: "/discounts",
+            label: "Discounts Tab",
+            icon: ProductsMajor,
+            onClick: () => handleClick("/discounts"),
+          },
         ]}
       />
     </Navigation>

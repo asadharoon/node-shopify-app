@@ -4,53 +4,11 @@ import Head from "next/head";
 import { AppProvider, Frame } from "@shopify/polaris";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
-
 import ClientRouter from "../components/ClientRouter";
-import { Provider, Context } from "@shopify/app-bridge-react";
-import { authenticatedFetch } from "@shopify/app-bridge-utils";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-common";
+import { Provider } from "@shopify/app-bridge-react";
 import NavBar from "../components/navbar/NavBar";
+import MyProvider from "../components/ApolloClient";
 
-function userLoggedInFetch(app) {
-  const fetchFunction = authenticatedFetch(app);
-
-  return async (uri, options) => {
-    const response = await fetchFunction(uri, options);
-
-    if (
-      response.headers.get("X-Shopify-API-Request-Failure-Reauthorize") === "1"
-    ) {
-      const authUrlHeader = response.headers.get(
-        "X-Shopify-API-Request-Failure-Reauthorize-Url"
-      );
-
-      const redirect = Redirect.create(app);
-      redirect.dispatch(Redirect.Action.APP, authUrlHeader || `/auth`);
-      return null;
-    }
-
-    return response;
-  };
-}
-class MyProvider extends React.Component {
-  static contextType = Context;
-
-  render() {
-    const app = this.context;
-
-    const client = new ApolloClient({
-      fetch: userLoggedInFetch(app),
-      fetchOptions: {
-        credentials: "include",
-      },
-    });
-
-    return (
-      <ApolloProvider client={client}>{this.props.children}</ApolloProvider>
-    );
-  }
-}
 class MyApp extends App {
   render() {
     const { Component, pageProps, shopOrigin } = this.props;
@@ -59,7 +17,7 @@ class MyApp extends App {
       shopOrigin,
       forceRedirect: true,
     };
-
+    console.log(config);
     return (
       <React.Fragment>
         <Head>
